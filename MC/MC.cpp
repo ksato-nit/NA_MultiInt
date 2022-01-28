@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define D 10
+#define D 2
 
 using namespace std;
 
