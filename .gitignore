@@ -1,3 +1,9 @@
+# 実行ファイル
+GL/GL
+
+# 出力データ
+*.dat
+
 # Prerequisites
 *.d
 
