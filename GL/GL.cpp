@@ -11,10 +11,11 @@ double Jsquared(int);
 
 int main(void){
     double S = 0;
-    for(int k = 1; k <= 500; ++k){
-        S += weight(500, k) * func(zero(500, k));
+    int n = 1000;
+    for(int k = 1; k <= n; ++k){
+        S += weight(n, k) * func(zero(n, k));
     }
-    cout << S << endl;
+    cout << setprecision(30) << S << endl;
     return 0;
 }
 
