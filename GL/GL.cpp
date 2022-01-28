@@ -3,11 +3,27 @@
 
 using namespace std;
 
+double zeroOfLegendre(int, int);
 double zeroOfBessel(int);
+double Jsquared(int);
 
 int main(void){
-    cout << Jsquared(1) << endl;
     return 0;
+}
+
+/* n 次 Legendre 多項式における k 番目の零点を返す．*/
+double zeroOfLegendre(int n, int k){
+    double x, s, v, a, u;
+    v = 1 / (n + 0.5);
+    a = v * zeroOfBessel(k);
+    u = cos(a) / sin(a);
+
+    s = a;
+    s += (u * a - 1) / (8 * a);
+    s += (6 * pow(a, 2) * (1 + pow(u, 2)) + 25 - u * (31 * pow(u, 2) + 33) * pow(a, 3)) / (384 * pow(a, 3));
+
+    x = cos(s);
+    return x;
 }
 
 /* 0 次の第 1 種 Bessel 関数 J_0 における k 番目の零点を返す．*/
