@@ -3,8 +3,8 @@
 
 using namespace std;
 
-double zeroOfLegendre(int, int);
-double weightOfLegendre(int, int);
+double zero(int, int);
+double weight(int, int);
 double zeroOfBessel(int);
 double Jsquared(int);
 
@@ -13,7 +13,7 @@ int main(void){
 }
 
 /* n 次 Legendre 多項式における k 番目の零点を返す．*/
-double zeroOfLegendre(int n, int k){
+double zero(int n, int k){
     double x, s, v, a, u;
     v = 1 / (n + 0.5);
     a = v * zeroOfBessel(k);
@@ -36,7 +36,7 @@ double zeroOfLegendre(int n, int k){
 }
 
 /* n 次 Legendre 多項式における k 番目のウエイトを返す．*/
-double weightOfLegendre(int n, int k){
+double weight(int n, int k){
     double w, s, v, a, u;
     v = 1 / (n + 0.5);
     a = v * zeroOfBessel(k);
