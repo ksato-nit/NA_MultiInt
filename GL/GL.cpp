@@ -3,7 +3,7 @@
 
 using namespace std;
 
-double func(double);
+double func(double, double);
 double zero(int, int);
 double weight(int, int);
 double zeroOfBessel(int);
@@ -13,20 +13,22 @@ int main(void){
     double pi = boost::math::constants::pi<double>();
     ofstream outputfile("result.dat");
     double S;
-    for(int n = 10; n <= 1000; ++n){
+    for(int n = 10; n < 100; ++n){
         S = 0;
-        for(int k = 1; k <= n; ++k){
-            S += weight(n, k) * func(zero(n, k));
+        for(int l = 1; l <= n; ++l){
+            for(int k = 1; k <= n; ++k){
+                S += weight(n, l) * weight(n, k) * func(zero(n, k), zero(n, l));
+            }
         }
-        outputfile << setprecision(30) << (S - (pi / 2)) / (pi / 2) << endl;
+        outputfile << setprecision(30) << abs(S - (-2 + exp(-2) + exp(2))) / (-2 + exp(-2) + exp(2)) << endl;
     }
     outputfile.close();
     return 0;
 }
 
 /* 被積分関数．*/
-double func(double x){
-    return 1 / (1 + pow(x, 2));
+double func(double x, double y){
+    return exp(- x - y);
 }
 
 /* n 次 Legendre 多項式における k 番目の零点を返す．*/
