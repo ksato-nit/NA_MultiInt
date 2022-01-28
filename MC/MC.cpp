@@ -13,15 +13,15 @@ int main(void){
     minstd_rand mr(r());
     uniform_real_distribution<> ud(-1, 1);
 
-    for(int n = 10; n < 10000; ++n){
+    for(int n = 1; n < 1000; ++n){
         S = 0;
         x[1] = ud(mr);
-        for(int i = 1; i <= n; ++i){
+        for(int i = 1; i <= 10000; ++i){
             x[0] = x[1];
             x[1] = ud(mr);
             S += func(x);
         }
-        S = (pow(2, D) * S) / n;
+        S = (pow(2, D) * S) / 10000;
         outputfile << setprecision(30) << abs(S - pow(exp(1) - exp(-1), D)) / (pow(exp(1) - exp(-1), D)) << endl;
     }
     outputfile.close();
