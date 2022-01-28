@@ -13,7 +13,7 @@ int main(void){
     double pi = boost::math::constants::pi<double>();
     ofstream outputfile("result.dat");
     double S;
-    for(int n = 10; n <= 20; ++n){
+    for(int n = 10; n <= 1000; ++n){
         S = 0;
         for(int k = 1; k <= n; ++k){
             S += weight(n, k) * func(zero(n, k));
