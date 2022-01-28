@@ -10,12 +10,17 @@ double zeroOfBessel(int);
 double Jsquared(int);
 
 int main(void){
-    double S = 0;
-    int n = 1000;
-    for(int k = 1; k <= n; ++k){
-        S += weight(n, k) * func(zero(n, k));
+    double pi = boost::math::constants::pi<double>();
+    ofstream outputfile("result.dat");
+    double S;
+    for(int n = 10; n <= 20; ++n){
+        S = 0;
+        for(int k = 1; k <= n; ++k){
+            S += weight(n, k) * func(zero(n, k));
+        }
+        outputfile << setprecision(30) << (S - (pi / 2)) / (pi / 2) << endl;
     }
-    cout << setprecision(30) << S << endl;
+    outputfile.close();
     return 0;
 }
 
@@ -102,7 +107,7 @@ double zeroOfBessel(int k){
     double zeros[10] = {2.4048, 5.5201, 8.6537, 11.792, 14.931, 18.071, 21.212, 24.352, 27.493, 30.635};
 
     if(k <= 10){
-        //return zeros[k - 1];
+        return zeros[k - 1];
     }
 
     double pi = boost::math::constants::pi<double>();
