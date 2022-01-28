@@ -28,6 +28,13 @@ double zeroOfLegendre(int n, int k){
 
 /* 0 次の第 1 種 Bessel 関数 J_0 における k 番目の零点を返す．*/
 double zeroOfBessel(int k){
+    /* TODO: 信頼できる数表を探し，数値を更新する．*/
+    double zeros[10] = {2.4048, 5.5201, 8.6537, 11.792, 14.931, 18.071, 21.212, 24.352, 27.493, 30.635};
+
+    if(k <= 10){
+        return zeros[k - 1];
+    }
+
     double pi = boost::math::constants::pi<double>();
     double a = pi * (k - 0.25);
     double b = 8 * a;
