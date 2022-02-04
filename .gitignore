@@ -1,6 +1,7 @@
 # 実行ファイル
 GL/GL
 MC/MC
+MC/MC_distribution
 SpectralTest/SpectralTest
 
 # 出力データ
