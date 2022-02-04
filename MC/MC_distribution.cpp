@@ -53,10 +53,10 @@ double lcg(mode M){
     random_device r;
     mt19937 mt(r());
     minstd_rand mr(r());
-    uniform_real_distribution<> ud(-10, 10);
+    uniform_real_distribution<> ud(-5, 5);
     normal_distribution<> nd(0, 1);
     exponential_distribution<> ed(1);
-    cauchy_distribution<> cd(0, 1);
+    cauchy_distribution<> cd(0, 0.5);
 
     switch (M){
         case UNIFORM:
