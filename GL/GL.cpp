@@ -1,9 +1,11 @@
 #include <bits/stdc++.h>
 #include <boost/math/constants/constants.hpp>
+#define D 2
 
 using namespace std;
 
-double func(double, double);
+double func(double*);
+double rec(int, int, double*);
 double zero(int, int);
 double weight(int, int);
 double zeroOfBessel(int);
@@ -14,21 +16,35 @@ int main(void){
     ofstream outputfile("result.dat");
     double S;
     for(int n = 10; n < 100; ++n){
-        S = 0;
-        for(int l = 1; l <= n; ++l){
-            for(int k = 1; k <= n; ++k){
-                S += weight(n, l) * weight(n, k) * func(zero(n, k), zero(n, l));
-            }
-        }
-        outputfile << setprecision(30) << abs(S - (-2 + exp(-2) + exp(2))) / (-2 + exp(-2) + exp(2)) << endl;
+        double x[100] = {0};
+        S = rec(n, 1, x);
+        outputfile << setprecision(30) << abs(S - pow(exp(1) - exp(-1), D)) / pow(exp(1) - exp(-1), D) << endl;
     }
     outputfile.close();
     return 0;
 }
 
+/* Gauss--Legendre 積分公式を再帰的に適用する．n^D 分点で (k - 1) 番目の変数まで見たときの積分を計算する．*/
+double rec(int n, int k, double* x){
+    if(k > D){
+        return func(x);
+    }else{
+        double S = 0;
+        for(int l = 1; l <= n; ++l){
+            x[k] = zero(n, l);
+            S += weight(n, l) * rec(n, k + 1, x);
+        }
+        return S;
+    }
+}
+
 /* 被積分関数．*/
-double func(double x, double y){
-    return exp(- x - y);
+double func(double* x){
+    double s = 0;
+    for(int i = 1; i <= D; ++i){
+        s += x[i];
+    }
+    return exp(-s);
 }
 
 /* n 次 Legendre 多項式における k 番目の零点を返す．*/

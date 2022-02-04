@@ -6,11 +6,14 @@
 ```
 NA_MultiInt
 │
-├ README.md .. 目次を書く
+├ README.md
 │
 ├ GL .. Gauss--Legendre 積分に関連するプログラム
-│　└ GL.cpp
+│  └ GL.cpp
 │
-└ MC .. Monte Carlo 法に関連するプログラム
-　 └ MC.cpp
+├ MC .. Monte Carlo 法に関連するプログラム
+│  └ MC.cpp
+│
+└ SpectralTest .. スペクトル検定のプログラム
+   └ SpectralTest.cpp
 ```
