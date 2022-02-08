@@ -11,16 +11,16 @@ double lcg(mode);
 int main(void){
     double S, x[DMAX] = {0};
 
-    int D = 5;
+    int D = 1;
     for(mode M = UNIFORM; M <= CAUCHY; M = static_cast<mode>((static_cast<int>(M) + 1))){
         string filename = "result_MC";
         filename += to_string(M);
         filename += ".dat";
         ofstream outputfile(filename);
-        for(int m = 1; m <= 10; ++m){
+        for(int m = 10; m <= 10; ++m){
             int n = (int) pow(2, m);
             double avg = 0;
-            for(int k = 0; k < 100; ++k){
+            for(int k = 99; k < 100; ++k){
                 S = 0;
                 for(int i = 1; i <= n; ++i){
                     for(int j = 0; j < D; ++j){
@@ -28,7 +28,8 @@ int main(void){
                     }
                     S += func(x, D);
                 }
-                S = (pow(2, D) * S) / n;
+                S = S * pow(10, D) / n;
+                cout << S << endl;
                 avg += S;
             }
             avg = avg / 100;
@@ -42,11 +43,12 @@ int main(void){
 
 /* 被積分関数．*/
 double func(double* x, int D){
-    double e = 0;
+    double f = 1;
     for(int d = 0; d < D; ++d){
-        e += -pow(x[d], 2);
+        f *= exp(-x[d] * x[d]);
     }
-    return exp(e);
+    cout << f << endl;
+    return f;
 }
 
 double lcg(mode M){
@@ -58,14 +60,23 @@ double lcg(mode M){
     exponential_distribution<> ed(1);
     cauchy_distribution<> cd(0, 0.5);
 
-    switch (M){
-        case UNIFORM:
-            return ud(mr);
-        case NORMAL:
-            return nd(mr);
-        case EXP:
-            return ed(mr);
-        case CAUCHY:
-            return cd(mr);
-    }
+    double ret = 0;
+    do{
+        switch (M){
+            case UNIFORM:
+                ret = ud(mr);
+                break;
+            case NORMAL:
+                ret = nd(mr);
+                break;
+            case EXP:
+                ret = ed(mr);
+                break;
+            case CAUCHY:
+                ret = cd(mr);
+                break;
+        }
+    }while(abs(ret) >= 5);
+
+    return ret;
 }

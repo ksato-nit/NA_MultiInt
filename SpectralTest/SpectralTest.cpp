@@ -3,13 +3,13 @@
 #include <boost/multiprecision/cpp_dec_float.hpp>
 #define lld boost::multiprecision::cpp_int
 #define llf boost::multiprecision::cpp_dec_float_50
-#define T 4
+#define T 8
 using namespace std;
 
 int main(void){
     lld m, a;
-    m = (lld) pow(2, 31);
-    a = 1103515245;
+    m = (lld) pow(2, 31) - 1;
+    a = 48271;
     lld h, hd, p, pd, r, s, q, qd, u, v, su, sv1, sv2;
     int t, k, j;
     lld U[T + 1][T + 1] = {0};
