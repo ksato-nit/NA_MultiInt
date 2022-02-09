@@ -17,7 +17,7 @@ int main(void){
     uniform_real_distribution<> ud(-1, 1);
     double truth = M_PI * (1 - exp(-9));
 
-    for(int m = 1; m <= 19; ++m){
+    for(int m = 1; m <= 20; ++m){
         int n = (int) pow(2, m);
         double avg = 0;
         for(int k = 0; k < 100; ++k){

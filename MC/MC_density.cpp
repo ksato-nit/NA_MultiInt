@@ -29,17 +29,17 @@ int main(void){
             }
             S += (M_PI * S1) / (n / 2);
 
-            for(int i = 1; i <= (3 * n) / 4; ++i){
+            for(int i = 1; i <= 3 * n / 8; ++i){
                 randomPoint(1.0, 2.0, x);
                 S2 += func(x);
             }
-            S += (3 * M_PI * S2) / ((3 * n) / 4);
+            S += (3 * M_PI * S2) / (3 * n / 8);
 
-            for(int i = 1; i <= n / 4; ++i){
+            for(int i = 1; i <= n / 8; ++i){
                 randomPoint(2.0, 3.0, x);
                 S3 += func(x);
             }
-            S += (5 * M_PI * S3) / (n / 4);
+            S += (5 * M_PI * S3) / (n / 8);
 
             avg += S;
         }
@@ -65,8 +65,8 @@ double lcg(double b1, double b2){
         swap(b1, b2);
     }
     static long long int x = 15;
-    long long int m = (long long int) pow(2, 31);
-    int a = 1103515245, c = 12345;
+    long long int m = (long long int) pow(2, 32);
+    int a = 22695477, c = 1;
     x = (a * x + c) % m;
 
     return ((b2 - b1) * x / m) - b2;
