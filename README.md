@@ -2,7 +2,6 @@
 多重積分に対する数値アルゴリズムの実装．
 
 ## 構成
-以下は暫定的なもの．
 ```
 NA_MultiInt
 │
@@ -12,7 +11,8 @@ NA_MultiInt
 │  └ GL.cpp
 │
 ├ MC .. Monte Carlo 法に関連するプログラム
-│  └ MC.cpp
+│  ├ MC.cpp
+│  └ MC_density.cpp .. 提案手法（積分領域を分割し分点を割り振るもの）の実装
 │
 └ SpectralTest .. スペクトル検定のプログラム
    └ SpectralTest.cpp
