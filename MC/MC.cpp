@@ -4,7 +4,8 @@
 using namespace std;
 
 double func(double*);
-double lcg();
+double lcg(double, double);
+void randomPoint(double, double, double*);
 
 int main(void){
     ofstream outputfile("result.dat");
@@ -14,20 +15,18 @@ int main(void){
     mt19937 mt(r());
     minstd_rand mr(r());
     uniform_real_distribution<> ud(-1, 1);
-    double truth = pow(M_PI / 2, D);
+    double truth = M_PI * (1 - exp(-9));
 
-    for(int m = 1; m <= 20; ++m){
+    for(int m = 1; m <= 19; ++m){
         int n = (int) pow(2, m);
         double avg = 0;
         for(int k = 0; k < 100; ++k){
             S = 0;
             for(int i = 1; i <= n; ++i){
-                for(int j = 0; j < D; ++j){
-                    x[j] = lcg();
-                }
+                randomPoint(0, 3.0, x);
                 S += func(x);
             }
-            S = (pow(2, D) * S) / n;
+            S = (9.0 * M_PI * S) / n;
             avg += S;
         }
         avg = avg / 100;
@@ -41,16 +40,30 @@ int main(void){
 double func(double* x){
     double S = 1;
     for(int d = 0; d < D; ++d){
-        S *= 1 / (1 + pow(x[d], 2));
+        S *= exp(-pow(x[d], 2));
     }
     return S;
 }
 
-double lcg(void){
+double lcg(double b1, double b2){
+    if(b1 > b2){
+        swap(b1, b2);
+    }
     static long long int x = 15;
     long long int m = (long long int) pow(2, 31);
     int a = 1103515245, c = 12345;
     x = (a * x + c) % m;
 
-    return (2.0 * x / m) - 1.0;
+    return ((b2 - b1) * x / m) - b2;
+}
+
+void randomPoint(double r1, double r2, double* x){
+    double normSquared;
+    do{
+        normSquared = 0;
+        for(int i = 0; i < D; ++i){
+            x[i] = lcg(-r2, r2);
+            normSquared += pow(x[i], 2);
+        }
+    }while(normSquared >= pow(r2, 2) || normSquared <= pow(r1, 2));
 }

@@ -5,76 +5,42 @@ using namespace std;
 
 double func(double*);
 double lcg(double, double);
+void randomPoint(double, double, double*);
 
 int main(void){
     ofstream outputfile("result.dat");
     double S, x[D] = {0};
-    double truth = pow(M_PI / 2, D);
+    double truth = M_PI * (1 - exp(-9));
 
     random_device r;
     mt19937 mt(r());
     minstd_rand mr(r());
     uniform_real_distribution<> ud(-1, 1);
 
-    for(int m = 4; m <= 19; ++m){
+    for(int m = 1; m <= 20; ++m){
         int n = (int) pow(2, m);
         double avg = 0;
         for(int k = 0; k < 100; ++k){
             S = 0;
             double S1 = 0, S2 = 0, S3 = 0;
+            for(int i = 1; i <= n / 2; ++i){
+                randomPoint(0, 1.0, x);
+                S1 += func(x);
+            }
+            S += (M_PI * S1) / (n / 2);
 
-            /* 分点数を大きく 8 分割し，領域 1, 3, 7, 9 に 2, 領域 2, 4, 6, 8 に 4，領域 5 に 2 を割り当てる．*/
-            for(int i = 1; i <= n / 16; ++i){
-                x[0] = lcg(-1.0, -1.0 / 3);
-                x[1] = lcg(1.0 / 3, 1.0);
-                S1 += func(x);
+            for(int i = 1; i <= (3 * n) / 4; ++i){
+                randomPoint(1.0, 2.0, x);
+                S2 += func(x);
             }
-            for(int i = 1; i <= n / 16; ++i){
-                x[0] = lcg(1.0 / 3, 1.0);
-                x[1] = lcg(1.0 / 3, 1.0);
-                S1 += func(x);
-            }
-            for(int i = 1; i <= n / 16; ++i){
-                x[0] = lcg(-1.0, -1.0 / 3);
-                x[1] = lcg(-1.0, -1.0 / 3);
-                S1 += func(x);
-            }
-            for(int i = 1; i <= n / 16; ++i){
-                x[0] = lcg(1.0 / 3, 1.0);
-                x[1] = lcg(-1.0, -1.0 / 3);
-                S1 += func(x);
-            }
-            S += (4 * (4.0 / 9) * S1) / (n / 4);
+            S += (3 * M_PI * S2) / ((3 * n) / 4);
 
-            for(int i = 1; i <= n / 8; ++i){
-                x[0] = lcg(-1.0 / 3, 1.0 / 3);
-                x[1] = lcg(1.0 / 3, 1.0);
-                S2 += func(x);
-            }
-            for(int i = 1; i <= n / 8; ++i){
-                x[0] = lcg(-1.0, -1.0 / 3);
-                x[1] = lcg(-1.0 / 3, 1.0 / 3);
-                S2 += func(x);
-            }
-            for(int i = 1; i <= n / 8; ++i){
-                x[0] = lcg(1.0 / 3, 1.0);
-                x[1] = lcg(-1.0 / 3, 1.0 / 3);
-                S2 += func(x);
-            }
-            for(int i = 1; i <= n / 8; ++i){
-                x[0] = lcg(-1.0 / 3, 1.0 / 3);
-                x[1] = lcg(-1.0, -1.0 / 3);
-                S2 += func(x);
-            }
-            S += (4 * (4.0 / 9) * S2) / (n / 2);
-
-            for(int i = 1; i <= (n / 4) + n; ++i){
-                x[0] = lcg(-1.0 / 3, 1.0 / 3);
-                x[1] = lcg(-1.0 / 3, 1.0 / 3);
+            for(int i = 1; i <= n / 4; ++i){
+                randomPoint(2.0, 3.0, x);
                 S3 += func(x);
             }
+            S += (5 * M_PI * S3) / (n / 4);
 
-            S += ((4.0 / 9) * S3) / ((n / 4) + n);
             avg += S;
         }
         avg = avg / 100;
@@ -88,7 +54,7 @@ int main(void){
 double func(double* x){
     double S = 1;
     for(int d = 0; d < D; ++d){
-        S *= 1 / (1 + pow(x[d], 2));
+        S *= exp(-pow(x[d], 2));
     }
     return S;
 }
@@ -104,4 +70,15 @@ double lcg(double b1, double b2){
     x = (a * x + c) % m;
 
     return ((b2 - b1) * x / m) - b2;
+}
+
+void randomPoint(double r1, double r2, double* x){
+    double normSquared;
+    do{
+        normSquared = 0;
+        for(int i = 0; i < D; ++i){
+            x[i] = lcg(-r2, r2);
+            normSquared += pow(x[i], 2);
+        }
+    }while(normSquared >= pow(r2, 2) || normSquared <= pow(r1, 2));
 }
