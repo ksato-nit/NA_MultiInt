@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 #include <boost/math/constants/constants.hpp>
-#define D 2
+#define D 6
 
 using namespace std;
 
@@ -15,12 +15,15 @@ int main(void){
     double pi = boost::math::constants::pi<double>();
     ofstream outputfile("result.dat");
     double S;
-    for(int n = 10; n < 100; ++n){
-        double x[100] = {0};
-        S = rec(n, 1, x);
-        outputfile << setprecision(30) << abs(S - pow(exp(1) - exp(-1), D)) / pow(exp(1) - exp(-1), D) << endl;
-    }
+    auto start = chrono::system_clock::now();
+    int n = 24;
+    double x[100] = {0};
+    S = rec(n, 1, x);
+    outputfile << setprecision(30) << abs(S - pow(exp(1) - exp(-1), D)) / pow(exp(1) - exp(-1), D) << endl;
     outputfile.close();
+    auto end = chrono::system_clock::now();
+    auto duration = end - start;
+    cout << "実行時間 : " << chrono::duration_cast<std::chrono::milliseconds>(duration).count() << endl;
     return 0;
 }
 
